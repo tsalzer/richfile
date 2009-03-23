@@ -1,0 +1,4 @@
+This file is used to test the Message Digest methods.
+However, this file hardly poses a challenge to any
+half-mature digest implementation. It is merely here
+to have a reference point for File.md5 and File.sha1.

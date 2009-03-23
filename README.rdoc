@@ -1,0 +1,49 @@
+= Richfile
+
+A simple gem which adds some additional methods to File objects.
+
+== Install
+
+  gem install tsalzer-richfile --source http://gems.github.com
+
+
+== What is a Richfile?
+
+Richfile extends the Ruby built-in File instances with some somtimes
+useful attributes.
+
+Note that there is no built-in magic to keep the once-fetched attributes
+in sync with the effective attributes of the real files.
+
+== Usage
+
+You simple require richfile:
+
+  require 'richfile'
+
+Now, every new File object has a list of additional attributes. Whenever you
+access the attributes the first time, the data is pulled from the file system
+and cached in the File object.
+
+If you need to refresh the data, either call +refresh!+, which updates every
+attribute you used before, or +refresh_all!+, which updates each of the cached
+attributes. When you are just interested in a single attribute, call the
+attribute with an added bang (like +size!+).
+
+== Building a new Gem
+
+To create a new gem, you need to install the echoe gem (see
+http://blog.evanweaver.com/files/doc/fauna/echoe/files/README.html).
+Next, edit the Rakefile to reflect your changes, then run:
+
+  rake clobber        # remove generated stuff for a clean manifest
+  rake manifest       # only needed if you changed the file set
+  rake build_gemspec  # update the gemspec
+
+Now, you can either publish the gem, or build a gem package. See rake -T for
+available targets.
+
+== License
+
+The richfile gem comes to you under the MIT License. You should find the
+license text in the file MIT-LICENSE in the gem folder.
