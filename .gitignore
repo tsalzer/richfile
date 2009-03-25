@@ -1,2 +1,5 @@
 coverage/*
 doc/*
+pkg/*
+Manifest
+*.gem

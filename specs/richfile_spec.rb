@@ -8,7 +8,7 @@ describe OpenSSL, "version" do
   end
 end
 
-describe Richfile do
+describe Richfile::Base do
   subject { File.new(File.join(File.dirname(__FILE__), "SimpleDigestTest.txt")) }
   
   it "should exist" do
@@ -69,14 +69,14 @@ end
 end
 
 
-describe Richfile do
+describe Richfile::Base do
   subject { Richfile }
   it "should have a DIGESTS constant with all digests" do
     Richfile::DIGESTS.should == %w(DSS1 MD2 MD4 MD5 RIPEMD160 SHA SHA1 SHA224 SHA256 SHA384 SHA512)
   end
 end
 
-describe Richfile, "refresh!" do
+describe Richfile::Base, "refresh!" do
   subject { File.new(File.join(File.dirname(__FILE__), "SimpleDigestTest.txt")) }
   
   it "should refresh the file size if the size was used" do
@@ -120,7 +120,7 @@ describe Richfile, "refresh!" do
   end
 end
 
-describe Richfile, "refresh_all!" do
+describe Richfile::Base, "refresh_all!" do
   subject { File.new(File.join(File.dirname(__FILE__), "SimpleDigestTest.txt")) }
   
   it "should refresh the file size" do

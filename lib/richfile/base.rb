@@ -2,59 +2,65 @@ require 'openssl'
 
 # Extension to File.
 module Richfile
+  if OpenSSL::OPENSSL_VERSION_NUMBER > 0x00908000
+    DIGESTS = %w(DSS1 MD2 MD4 MD5 RIPEMD160 SHA SHA1 SHA224 SHA256 SHA384 SHA512)
+  else
+    DIGESTS = %w(DSS1 MD2 MD4 MD5 RIPEMD160 SHA SHA1)
+  end
+  
+  def self.digest_variants(digest)
+    digest_downcase = digest.downcase
+    digest_symbol = digest_downcase.to_sym
+    digest_bang = "#{digest_downcase}!".to_sym
+    digest_variable = "@#{digest_downcase}".to_sym
+    return digest_downcase, digest_symbol, digest_bang, digest_variable
+  end
+
+# Methods to be included in File objects.  
+module Base
   # size of the file in bytes.
   attr_reader :size
   
-  #alg = %w(DSS DSS1 MD2 MD4 MD5 MDC2 RIPEMD160 SHA SHA1)
-  alg = %w(DSS1 MD2 MD4 MD5 RIPEMD160 SHA SHA1)
-  if OpenSSL::OPENSSL_VERSION_NUMBER > 0x00908000
-    alg += %w(SHA224 SHA256 SHA384 SHA512)
-  end
-  DIGESTS=alg
-  DIGESTS.each do |digest|
-    cd = digest.downcase
-    cds = cd.to_sym
-    cdsb = "#{cd}!".to_sym
-    cdi = "@#{cd}".to_sym
+  # define attributes for all the digests in Richfile::DIGEST.
+  Richfile::DIGESTS.each do |digest|
+    d_downcase, d_sym, d_bang, d_var = Richfile.digest_variants(digest)
     
-    # message digest
-    attr_reader cds
+    # message digest #{digest}
+    attr_reader d_sym
     
-    define_method cds do
-      instance_variable_set(cdi, File.open(path, 'r') do |f|
+    define_method d_sym do
+      instance_variable_set(d_var, File.open(path, 'r') do |f|
         d = OpenSSL::Digest.new(digest)
         d << f.read
         d.hexdigest
-      end) unless instance_variable_get(cdi)
-      instance_variable_get(cdi)
+      end) unless instance_variable_get(d_var)
+      instance_variable_get(d_var)
     end
-    define_method cdsb do
-      instance_variable_set(cdi, nil)
-      send cds
+    define_method d_bang do
+      instance_variable_set(d_var, nil)
+      send d_sym
     end
   end
   
   # refresh the Richfile added attributes.
+  # All the attributes referred once are loaded.
   def refresh!
     self.size! if @size
     DIGESTS.each do |digest|
-      cd = digest.downcase
-      cdsb = "#{cd}!".to_sym
-      cdi = "@#{cd}".to_sym
-      
-      send cdsb if (instance_variable_get(cdi))
+      d_downcase, d_sym, d_bang, d_var = Richfile.digest_variants(digest)
+      send d_bang if (instance_variable_get(d_var))
     end
     self
   end
   
+  # refresh all attributes.
+  # All attributes wil be loaded, so all digests will be calculated.
+  # You will most probably never need this method.
   def refresh_all!
     self.size!
     DIGESTS.each do |digest|
-      cd = digest.downcase
-      cdsb = "#{cd}!".to_sym
-      cdi = "@#{cd}".to_sym
-      
-      send cdsb
+      d_downcase, d_sym, d_bang, d_var = Richfile.digest_variants(digest)
+      send d_bang
     end
     self
   end
@@ -76,5 +82,12 @@ module Richfile
     @size = nil
     self.size
   end
-    
+
+end#Base
+
+# include the Richfile::Base module into the File class.
+def self.install
+  File.send :include, Richfile::Base
+end
+
 end#Richfile
