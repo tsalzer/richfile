@@ -4,7 +4,7 @@ require 'rake'
 task :default => [:specs]
 require 'echoe'
 
-Echoe.new('richfile', '0.0.1') do |p|
+Echoe.new('richfile', '0.0.2') do |p|
   p.description = "Extends File objects with some rich instance attributes."
   p.url = "http://github.com/tsalzer/richfile"
   p.author = "Till Salzer"

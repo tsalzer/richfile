@@ -8,27 +8,24 @@ describe OpenSSL, "version" do
   end
 end
 
-describe Richfile::Base do
+describe Richfile::Base, "example SimpleDigestTest.txt" do
   subject { File.new(File.join(File.dirname(__FILE__), "SimpleDigestTest.txt")) }
   
   it "should exist" do
     subject.exists?.should == true
   end
   
-  it "should provide a size attribute" do
+  it "should have a size attribute" do
     subject.should respond_to(:size)
     subject.size.should be > 0
     subject.size.should == File.size(subject)
   end
-  it "should provide a mtime attribute" do
+  it "should have a mtime attribute" do
     subject.should respond_to(:mtime)
-    subject.mtime.should be < Time.new
     subject.mtime.should == File.mtime(subject)
   end
-  it "should provide a ctime attribute" do
+  it "should have a ctime attribute" do
     subject.should respond_to(:ctime)
-    subject.ctime.should be < Time.new
-    subject.ctime.should be <= subject.mtime
     subject.ctime.should == File.ctime(subject)
   end
   
