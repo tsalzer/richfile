@@ -25,7 +25,7 @@ Spec::Rake::SpecTask.new('specs') do |t|
 end
 
 desc "Run all specs with RCov"
-Spec::Rake::SpecTask.new('rcov') do |t|
+Spec::Rake::SpecTask.new('coverage') do |t|
   t.spec_files = filelist(:exclude => EXCLUDES)
   t.rcov = true
   t.rcov_opts = ['--exclude', 'specs/.*,buildlib/project\.rb,buildlib/buildlib\.rb,buildlib/command\.rb']
