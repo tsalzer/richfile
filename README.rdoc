@@ -7,10 +7,12 @@ A simple gem which adds some additional methods to File objects.
   gem install tsalzer-richfile --source http://gems.github.com
 
 
-== What is a Richfile?
+== What is Richfile?
 
-Richfile extends the Ruby built-in File instances with some somtimes
+Richfile extends the Ruby built-in File instances with some sometimes
 useful attributes.
+- +size+ attribute to cache the file size in a File object
+- OpenSSL digest attributes like +md5+ and +sha1+ (for all available digests)
 
 Note that there is no built-in magic to keep the once-fetched attributes
 in sync with the effective attributes of the real files.

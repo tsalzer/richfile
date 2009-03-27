@@ -49,6 +49,7 @@ end#Base
 # include the Richfile::Base module into the File class.
 def self.install
   File.send :include, Richfile::Base
+  File.class.send :include, Richfile::DigestClassmethods
   File.send :include, Richfile::Digests
 end
 

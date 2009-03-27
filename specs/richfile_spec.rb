@@ -1,5 +1,5 @@
 require 'lib/richfile'
-require "md5"
+require 'md5'
 
 describe OpenSSL, "version" do
   subject { OpenSSL::OPENSSL_VERSION_NUMBER }
