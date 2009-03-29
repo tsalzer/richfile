@@ -12,7 +12,7 @@ A simple gem which adds some additional methods to File objects.
 Richfile extends the Ruby built-in File instances with some sometimes
 useful attributes.
 - +size+ attribute to cache the file size in a File object
-- OpenSSL digest attributes like +md5+ and +sha1+ (for all available digests)
+- OpenSSL digest attributes like <code>md5</code> and <code>sha1</code> (for all available digests)
 
 Note that there is no built-in magic to keep the once-fetched attributes
 in sync with the effective attributes of the real files.
@@ -27,23 +27,23 @@ Now, every new File object has a list of additional attributes. Whenever you
 access the attributes the first time, the data is pulled from the file system
 and cached in the File object.
 
-If you need to refresh the data, either call +refresh!+, which updates every
-attribute you used before, or +refresh_all!+, which updates each of the cached
+If you need to refresh the data, either call <code>refresh!</code>, which updates every
+attribute you used before, or <code>refresh_all!</code>, which updates each of the cached
 attributes. When you are just interested in a single attribute, call the
-attribute with an added bang (like +size!+).
+attribute with an added bang (like <code>size!</code>).
 
 == Building a new Gem
 
-To create a new gem, you need to install the echoe gem (see
-http://blog.evanweaver.com/files/doc/fauna/echoe/files/README.html).
-Next, edit the Rakefile to reflect your changes, then run:
+To create a new gem, you need to install the jeweler gem (see
+http://github.com/technicalpickles/jeweler/tree/master). If this is done, you can
+easily build a new gemspec with
 
-  rake clobber        # remove generated stuff for a clean manifest
-  rake manifest       # only needed if you changed the file set
-  rake build_gemspec  # update the gemspec
+  rake gemspec
+  gem build richfile.gemspec
 
-Now, you can either publish the gem, or build a gem package. See rake -T for
-available targets.
+This would create a new richfile-x.y.z.gem, which can easily be installed via
+
+  gem install richfile-x.y.z.gem
 
 == License
 
