@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Only commits without failing specs are allowed.
+
+exec rake specs
