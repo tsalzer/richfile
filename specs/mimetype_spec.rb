@@ -46,3 +46,20 @@ describe Richfile::Mimetype::InstanceMethods do
     f.mimetype.should == 'text/plain'
   end
 end
+
+describe File, "class methods" do
+  subject { File }
+  it "should recognize SimpleDigestTest.txt as text/plain" do
+    subject.mimetype(digestfile_path).should == "text/plain"
+  end
+end
+
+describe File, ".mimetype for #{digestfile_path}" do
+  subject { File.new(digestfile_path) }
+  it "should respond to :mimetype" do
+    subject.should respond_to(:mimetype)
+  end
+  it "should recognize text/plain" do
+    subject.mimetype.should == "text/plain"
+  end
+end

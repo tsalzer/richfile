@@ -50,8 +50,7 @@ def self.install
   File.class.send :include, Richfile::DigestClassmethods
   File.send :include, Richfile::Digests
   
-  File.class.send :include, Richfile::Mimetype::ClassMethods
-  File.send :include, Richfile::Mimetype::InstanceMethods
+  File.send :include, Richfile::Mimetype::Base
 end
 
 end#Richfile

@@ -43,5 +43,12 @@ end#ClassMethods
     return mimetype, encoding
   end
 
+module Base #:nodoc:
+  def self.included(mod) #:nodoc:
+    mod.extend(Richfile::Mimetype::ClassMethods)
+    mod.class_eval { include(Richfile::Mimetype::InstanceMethods) }
+  end
+end#Base
+
 end#Mimetype
 end#Richfile
