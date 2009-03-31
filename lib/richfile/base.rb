@@ -1,6 +1,3 @@
-require 'openssl'
-require "#{File.dirname(__FILE__)}/digests"
-
 # Extension to File.
 module Richfile
   
@@ -49,8 +46,12 @@ end#Base
 # include the Richfile::Base module into the File class.
 def self.install
   File.send :include, Richfile::Base
+  
   File.class.send :include, Richfile::DigestClassmethods
   File.send :include, Richfile::Digests
+  
+  File.class.send :include, Richfile::Mimetype::ClassMethods
+  File.send :include, Richfile::Mimetype::InstanceMethods
 end
 
 end#Richfile
