@@ -29,10 +29,10 @@ require 'md5'
 end
 
 
-describe Richfile::Base, "DIGEST contant" do
-  subject { Richfile }
+describe Richfile::Digests, "DIGEST contant" do
+  subject { Richfile::Digests }
   it "should have a DIGESTS constant with all digests" do
-    Richfile::DIGESTS.should == %w(DSS1 MD2 MD4 MD5 RIPEMD160 SHA SHA1 SHA224 SHA256 SHA384 SHA512)
+    subject::DIGESTS.should == %w(DSS1 MD2 MD4 MD5 RIPEMD160 SHA SHA1 SHA224 SHA256 SHA384 SHA512)
   end
 end
 

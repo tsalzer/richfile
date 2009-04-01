@@ -1,7 +1,10 @@
 require 'openssl'
 
-# Extension to File.
 module Richfile
+
+# Digest-related methods and attributes to be included in File objects.  
+module Digests
+
   if OpenSSL::OPENSSL_VERSION_NUMBER > 0x00908000
     DIGESTS = %w(DSS1 MD2 MD4 MD5 RIPEMD160 SHA SHA1 SHA224 SHA256 SHA384 SHA512)
   else
@@ -15,20 +18,12 @@ module Richfile
     digest_variable = "@#{digest_downcase}".to_sym
     return digest_downcase, digest_symbol, digest_bang, digest_variable
   end
-
-# Digest-related methods and attributes to be included in File objects.  
-module Digests
+  
+module InstanceMethods
   # define attributes for all the digests in Richfile::DIGEST.
-  Richfile::DIGESTS.each do |digest|
-    d_downcase, d_sym, d_bang, d_var = Richfile.digest_variants(digest)
+  Richfile::Digests::DIGESTS.each do |digest|
+    d_downcase, d_sym, d_bang, d_var = Richfile::Digests.digest_variants(digest)
     
-    # message digest #{digest}
-#    attr_reader d_sym
-    
-#    define_method d_sym do
-#      instance_variable_set(d_var, self.class.digest(digest, path)) unless instance_variable_get(d_var)
-#      instance_variable_get(d_var)
-#    end
     define_method d_bang do
       instance_variable_set(d_var, nil)
       send d_sym
@@ -110,11 +105,10 @@ module Digests
     end
     self
   end
-
-end#Digests
+end#InstanceMethods
 
 # Digest-related methods to be included into File class.
-module DigestClassmethods
+module ClassMethods
   # compute the DSS1 digest of a file.
   def dss1(path)
     hexdigest('DSS1', path)
@@ -182,5 +176,14 @@ module DigestClassmethods
     end
   end
 end#DigestClassmethods
+
+module Base #:nodoc:
+  def self.included(mod) #:nodoc:
+    mod.extend(Richfile::Digests::ClassMethods)
+    mod.class_eval { include(Richfile::Digests::InstanceMethods) }
+  end
+end#Base
+
+end#Digests
 
 end#Richfile
