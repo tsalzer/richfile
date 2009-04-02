@@ -1,4 +1,4 @@
-require "#{File.dirname(__FILE__)}/richfile/base"
-require "#{File.dirname(__FILE__)}/richfile/digests"
-require "#{File.dirname(__FILE__)}/richfile/mimetype"
+require "richfile/base"
+require "richfile/digests"
+require "richfile/mimetype"
 Richfile.install

@@ -1,4 +1,4 @@
-require 'lib/richfile'
+require File.join(File.dirname(__FILE__), 'test_helper')
 require 'md5'
 
 describe OpenSSL, "version" do
@@ -80,6 +80,16 @@ describe Richfile::Base, ".refresh!" do
     subject.should_not_receive(:sha512!)
     subject.refresh!
   end
+
+  it "should refresh the MIME type if the MIME type was used" do
+    subject.mimetype
+    subject.should_receive(:mimetype!).once
+    subject.refresh!
+  end
+  it "should not refresh the MIME type if the MIME type was not used" do
+    subject.should_not_receive(:mimetype!)
+    subject.refresh!
+  end
 end
 
 describe Richfile::Base, ".refresh_all!" do
@@ -102,6 +112,11 @@ describe Richfile::Base, ".refresh_all!" do
 
   it "should refresh the SHA512 digest" do
     subject.should_receive(:sha512!).once
+    subject.refresh_all!
+  end
+  
+  it "should refresh the MIME type" do
+    subject.should_receive(:mimetype!).once
     subject.refresh_all!
   end
 end

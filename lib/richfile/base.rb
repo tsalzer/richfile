@@ -11,6 +11,7 @@ module Base
   def refresh!
     self.size! if @size
     refresh_digests! if respond_to?(:refresh_all_digests!)
+    self.mimetype! if @mimetype
     self
   end
   
@@ -20,6 +21,7 @@ module Base
   def refresh_all!
     self.size!
     refresh_all_digests! if respond_to?(:refresh_all_digests!)
+    self.mimetype!
     self
   end
   

@@ -1,4 +1,4 @@
-require 'lib/richfile'
+require File.join(File.dirname(__FILE__), 'test_helper')
 require 'md5'
 
 { #:dss => nil, - unsupported
