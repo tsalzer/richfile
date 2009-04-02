@@ -16,14 +16,25 @@ require 'md5'
   :sha512 => "137a67bfe730049222f7ac4969d14c3c79ee82d90bd1e223a0217abd8a73f617036222dce542d6243a7b94bc76ff1ee1359f073bb6a116df07c76c2164927800"
   }.each do |cypher, checksum|
   describe Richfile, ".#{cypher} message digest/checksum" do
+    cypherb = "#{cypher}!".to_sym
     subject { File.new(File.join(File.dirname(__FILE__), "SimpleDigestTest.txt")) }
+    
     it "should provide a #{cypher} attribute" do
       subject.should respond_to(cypher)
+    end
+    it "should provide a #{cypherb} method" do
+      subject.should respond_to(cypherb)
+    end
+    it "should provide the correct value for #{cypher}" do
       subject.send(cypher).should == checksum
     end
-    it "should provide a #{cypher}! method" do
-      subject.should respond_to("#{cypher}!".to_sym)
-      subject.send("#{cypher}!".to_sym).should == checksum
+    it "should provide the correct value for #{cypherb}" do
+      subject.send(cypherb).should == checksum
+    end
+    it "should re-read the digests when calling #{cypherb}" do
+      subject.should_receive(cypher).twice
+      subject.send(cypherb)
+      subject.send(cypherb)
     end
   end
 end
