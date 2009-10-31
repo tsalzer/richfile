@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
-require 'md5'
+#require 'md5'
 
 describe OpenSSL, "version" do
   subject { OpenSSL::OPENSSL_VERSION_NUMBER }
@@ -30,6 +30,7 @@ describe Richfile::Base, "example SimpleDigestTest.txt" do
   end
   
   it "should yield the same result as the built-in MD5 function" do
+    # TODO: This test might be broken. Otherwise, check Ruby 1.9.1 for MD5 support.
     d = MD5.new
     File.open(File.join(File.dirname(__FILE__), "SimpleDigestTest.txt")) do |f|
       d << f.read

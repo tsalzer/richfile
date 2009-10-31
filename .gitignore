@@ -1,5 +1,6 @@
 coverage/*
 doc/*
 pkg/*
+rdoc/*
 Manifest
 *.gem

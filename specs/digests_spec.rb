@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
-require 'md5'
+#require 'md5'
 
 { #:dss => nil, - unsupported
   :dss1 => "dee5ba176cb2d1cc7d9a5fc3a2240a37645d6b46",
